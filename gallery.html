@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gallery — Mish's 21st</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .gallery-hero {
+    padding: 64px 0 20px;
+    text-align: center;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  .gallery-grid .tile:nth-child(6n+1) { grid-column: span 2; grid-row: span 2; }
+
+  .tile {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--gold-light);
+    background: linear-gradient(135deg, var(--gold-light), var(--blush-soft));
+  }
+
+  .gallery-grid .tile:nth-child(6n+1) { aspect-ratio: auto; }
+
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .tile:hover img { transform: scale(1.06); }
+
+  .tile .placeholder-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gold-deep);
+  }
+
+  .tile .caption-strip {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 10px 14px;
+    background: linear-gradient(0deg, rgba(43,33,24,0.65), transparent);
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .tile:hover .caption-strip { opacity: 1; }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 33, 24, 0.86);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 24px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: min(90vw, 720px); max-height: 82vh; border-radius: var(--radius-md); }
+  .lightbox-close {
+    position: absolute;
+    top: 24px; right: 28px;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .howto {
+    margin-top: 56px;
+    padding: 22px 26px;
+    background: var(--white);
+    border: 1px dashed var(--gold);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    color: var(--espresso-soft);
+  }
+  .howto code {
+    background: var(--gold-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 760px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid .tile:nth-child(6n+1) { grid-column: span 2; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-brand">Mish ✦ 21</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="message.html">Message</a>
+    </div>
+  </div>
+</nav>
+
+<section class="gallery-hero">
+  <div class="container">
+    <p class="eyebrow">Chapter One</p>
+    <h1>The Gallery</h1>
+    <p style="max-width:520px;margin:0 auto;color:var(--espresso-soft);">Every photo here is a moment I didn't want you to forget.</p>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="container">
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="cross">✦</div>
+  <p>Made with love (and way too many late nights coding) for Mish's 21st.</p>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<audio id="bg-music" loop preload="none">
+  <source src="assets/music/bg.mp3" type="audio/mpeg" />
+</audio>
+<button class="music-toggle" id="music-toggle" aria-label="Play music">
+  <svg viewBox="0 0 24 24" fill="none" class="bars">
+    <rect x="4" y="9" width="3" height="6" rx="1.5" fill="currentColor" />
+    <rect x="10.5" y="5" width="3" height="14" rx="1.5" fill="currentColor" />
+    <rect x="17" y="11" width="3" height="4" rx="1.5" fill="currentColor" />
+  </svg>
+</button>
+
+<script src="script.js"></script>
+<script>
+  /* ---- Edit this list to add your real photos ----
+     src: filename inside assets/photos/
+     caption: short line shown on hover
+  */
+  const photos = [
+    { src: "1.jpg", caption: "Computer Class" },
+    { src: "2.jpg", caption: "Mish Fairwell" },
+    { src: "3.jpg", caption: "Tired of Serving people" },
+    { src: "4.jpg", caption: "Jungle Saffari" },
+    { src: "5.jpg", caption: "Us Core" },
+    { src: "6.jpg", caption: "Best Duo" },
+    { src: "7.jpg", caption: "AYYYYYYY" },
+    { src: "8.jpg", caption: "Why is my eyes like that" },
+    { src: "9.jpg", caption: "Us Core" },
+    { src: "10.jpg", caption: "Us Core" },
+    { src: "11.jpg", caption: "Us Core" },
+    { src: "12.jpg", caption: "Us Core" },
+    { src: "14.jpg", caption: "Us Core" },
+    { src: "15.jpg", caption: "Us Core" },
+    { src: "16.jpg", caption: "Us Core" },
+    { src: "17.jpg", caption: "Us Core" },
+    { src: "18.jpg", caption: "Us Core" },
+    { src: "19.jpg", caption: "Us Core" },
+    { src: "20.jpg", caption: "Us Core" },
+    { src: "21.jpg", caption: "Us Core" },
+    { src: "22.jpg", caption: "Us Core" },
+    { src: "23.jpg", caption: "Us Core" },
+    { src: "24.jpg", caption: "Us Core" },
+  ];
+
+  const grid = document.getElementById("gallery-grid");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+
+  photos.forEach((p) => {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+
+    const img = document.createElement("img");
+    img.src = `assets/photos/${p.src}`;
+    img.alt = p.caption;
+    img.loading = "lazy";
+
+    const label = document.createElement("div");
+    label.className = "placeholder-label";
+    label.textContent = "add " + p.src + " to assets/photos/";
+
+    img.addEventListener("error", () => {
+      img.remove();
+      tile.appendChild(label);
+    }, { once: true });
+
+    const caption = document.createElement("div");
+    caption.className = "caption-strip";
+    caption.textContent = p.caption;
+
+    tile.appendChild(img);
+    tile.appendChild(caption);
+    tile.addEventListener("click", () => {
+      if (tile.querySelector("img")) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = p.caption;
+        lightbox.classList.add("open");
+      }
+    });
+
+    grid.appendChild(tile);
+  });
+
+  document.getElementById("lightbox-close").addEventListener("click", () => {
+    lightbox.classList.remove("open");
+  });
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) lightbox.classList.remove("open");
+  });
+</script>
+</body>
+</html>

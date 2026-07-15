@@ -1,0 +1,254 @@
+/* =========================================================
+   MISH — 21st Birthday Site
+   Design tokens
+   ========================================================= */
+
+:root {
+  /* Color */
+  --ivory: #fffcf5;
+  --white: #ffffff;
+  --gold: #c6a15b;
+  --gold-deep: #97753a;
+  --gold-light: #ecdcb2;
+  --espresso: #2b2118;
+  --espresso-soft: #5c4f3f;
+  --blush: #e8b4a0;
+  --blush-soft: #f6e2da;
+
+  /* Type */
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-body: "Poppins", "Segoe UI", sans-serif;
+  --font-script: "Dancing Script", cursive;
+
+  /* Layout */
+  --max-width: 1100px;
+  --radius-lg: 28px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --shadow-soft: 0 10px 40px rgba(151, 117, 58, 0.18);
+  --shadow-card: 0 6px 24px rgba(43, 33, 24, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--espresso);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Subtle gold dust background texture, present on every page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 12% 20%, rgba(198, 161, 91, 0.10) 0, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(232, 180, 160, 0.12) 0, transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(198, 161, 91, 0.08) 0, transparent 50%);
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0 0 0.4em;
+  color: var(--espresso);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--gold-deep);
+  font-weight: 600;
+}
+
+.script {
+  font-family: var(--font-script);
+  color: var(--gold-deep);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Nav ---------- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 252, 245, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--gold-light);
+}
+
+.site-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.nav-brand {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--gold-deep);
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--espresso-soft);
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--gold-deep);
+  border-color: var(--gold);
+}
+
+/* ---------- Music toggle (persistent floating control) ---------- */
+.music-toggle {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 60;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 1px solid var(--gold-deep);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--white);
+  transition: transform 0.2s ease;
+}
+
+.music-toggle:hover { transform: scale(1.06); }
+.music-toggle:active { transform: scale(0.96); }
+
+.music-toggle svg { width: 22px; height: 22px; }
+
+.music-toggle.is-playing .bars rect {
+  animation: eq 0.9s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.music-toggle .bars rect:nth-child(2) { animation-delay: 0.15s; }
+.music-toggle .bars rect:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1); }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  border: 1px solid var(--gold);
+  transition: all 0.25s ease;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(151, 117, 58, 0.28); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--gold-deep);
+}
+.btn-outline:hover { background: var(--gold-light); }
+
+/* ---------- Section shells ---------- */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 96px 0;
+}
+
+.divider {
+  width: 64px;
+  height: 2px;
+  background: var(--gold);
+  margin: 20px auto;
+  border-radius: 2px;
+}
+
+.divider.left { margin: 20px 0; }
+
+/* ---------- Footer ---------- */
+footer {
+  padding: 48px 0 90px;
+  text-align: center;
+  color: var(--espresso-soft);
+  font-size: 0.85rem;
+}
+
+footer .cross {
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 0.72rem; }
+  section { padding: 64px 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

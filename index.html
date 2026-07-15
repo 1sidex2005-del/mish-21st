@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy 21st, Mish 🤍</title>
+<meta name="description" content="A birthday website for Tisharia Mishal Chand's 21st birthday." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  /* Page-specific styles for the landing hero */
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-ring {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--gold-deep);
+    background: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    max-width: 900px;
+    line-height: 1.1;
+  }
+
+  .hero h1 .script {
+    font-size: 1.15em;
+    display: block;
+  }
+
+  .hero p.lead {
+    max-width: 560px;
+    font-size: 1.05rem;
+    color: var(--espresso-soft);
+    margin: 18px auto 34px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .confetti-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -20px;
+    border-radius: 2px;
+    opacity: 0.9;
+    animation-name: fall;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(105vh) rotate(340deg); opacity: 0; }
+  }
+
+  /* Verse callout — the faith touch, understated rather than loud */
+  .verse {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 32px;
+    background: var(--white);
+    border: 1px solid var(--gold-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .verse .cross-mark {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .verse p.verse-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--espresso);
+    margin-bottom: 10px;
+  }
+
+  .verse p.verse-ref {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    font-weight: 600;
+  }
+
+  /* Story strip — three "chapters" that hint at the rest of the site */
+  .story-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 56px;
+  }
+
+  .story-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 30px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--gold-light);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .story-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .story-card .num {
+    font-family: var(--font-script);
+    font-size: 2rem;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .story-card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .story-card p { font-size: 0.92rem; color: var(--espresso-soft); margin: 0 0 18px; }
+
+  .section-heading {
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto 10px;
+  }
+
+  @media (max-width: 760px) {
+    .story-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-brand">Mish ✦ 21</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="message.html">Message</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="hero">
+  <div class="confetti-layer" id="confetti-layer"></div>
+  <div class="hero-ring">21</div>
+  <h1>
+    <span class="eyebrow">A little something for</span><br />
+    <span class="script">Mishi</span>
+  </h1>
+  <p class="lead">Twenty-one years of being wild, loud, ridiculous, kind, and completely herself — happy birthday, Mish. This one's from me to you.</p>
+  <div class="hero-actions">
+    <a href="message.html" class="btn btn-gold">Open your message</a>
+    <a href="gallery.html" class="btn btn-outline">See the photos</a>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="verse">
+      <div class="cross-mark">✦</div>
+      <p class="verse-text">"She is clothed with strength and dignity, and she laughs without fear of the future."</p>
+      <p class="verse-ref">Proverbs 31:25</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Before you go further</p>
+      <h2>Three little stops</h2>
+    </div>
+    <div class="story-grid">
+      <div class="story-card">
+        <span class="num">i.</span>
+        <h3>The Gallery</h3>
+        <p>A wall of moments — us being ridiculous, us being real.</p>
+        <a href="gallery.html" class="btn btn-outline">Walk through</a>
+      </div>
+      <div class="story-card">
+        <span class="num">ii.</span>
+        <h3>The Message</h3>
+        <p>Scratch the gold to find what I actually wanted to say.</p>
+        <a href="message.html" class="btn btn-outline">Scratch it open</a>
+      </div>
+      <div class="story-card">
+        <span class="num">iii.</span>
+        <h3>The Wish Wall</h3>
+        <p>Leave your own birthday wish for her, right there on the page.</p>
+        <a href="message.html#wishes" class="btn btn-outline">Add a wish</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="cross">✦</div>
+  <p>Made with love (and way too many late nights coding) for Mish's 21st.</p>
+</footer>
+
+<!-- Background music: drop your track at assets/music/bg.mp3 -->
+<audio id="bg-music" loop preload="none">
+  <source src="assets/music/bg.mp3" type="audio/mpeg" />
+</audio>
+<button class="music-toggle" id="music-toggle" aria-label="Play music">
+  <svg viewBox="0 0 24 24" fill="none" class="bars">
+    <rect x="4" y="9" width="3" height="6" rx="1.5" fill="currentColor" />
+    <rect x="10.5" y="5" width="3" height="14" rx="1.5" fill="currentColor" />
+    <rect x="17" y="11" width="3" height="4" rx="1.5" fill="currentColor" />
+  </svg>
+</button>
+
+<script src="script.js"></script>
+<script>
+  fireConfetti(document.getElementById("confetti-layer"), 30);
+</script>
+</body>
+</html>
