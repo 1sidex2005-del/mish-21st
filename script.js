@@ -161,39 +161,28 @@ function setupScratchCard(canvasId, thresholdPercent = 55, onReveal) {
   sizeCanvas();
 }
 
-/* ---------- Birthday wish wall, stored locally in the browser ----------
-   Anyone viewing the site on their own device can leave a wish and see
-   the ones they've added. Since there's no backend, wishes are stored
-   per-browser in localStorage — see README if you'd like every visitor
-   to share the same wall instead.
+/* ---------- Birthday wish wall ----------
+   If firebase-config.js has been filled in with real project keys,
+   wishes are stored in Firestore so EVERYONE sees the same shared wall,
+   no matter what device or app they opened the link from.
+   If Firebase isn't configured yet, it quietly falls back to
+   localStorage (private to each browser) so nothing breaks.
 ------------------------------------------------------------------- */
 (function setupWishWall() {
   const form = document.getElementById("wish-form");
   const list = document.getElementById("wish-list");
   if (!form || !list) return;
 
+  const usingFirestore = typeof window.mishDB !== "undefined";
   const KEY = "mish21_wishes";
 
-  function load() {
-    try {
-      return JSON.parse(localStorage.getItem(KEY) || "[]");
-    } catch {
-      return [];
-    }
-  }
-
-  function save(wishes) {
-    localStorage.setItem(KEY, JSON.stringify(wishes));
-  }
-
-  function render() {
-    const wishes = load();
+  function renderWishes(wishes) {
     list.innerHTML = "";
     if (wishes.length === 0) {
       list.innerHTML = '<p class="wish-empty">No wishes yet — be the first to leave one for Mish 🤍</p>';
       return;
     }
-    wishes.slice().reverse().forEach((w) => {
+    wishes.forEach((w) => {
       const card = document.createElement("div");
       card.className = "wish-card";
       card.innerHTML = `<p class="wish-text"></p><span class="wish-from"></span>`;
@@ -203,17 +192,56 @@ function setupScratchCard(canvasId, thresholdPercent = 55, onReveal) {
     });
   }
 
+  if (usingFirestore) {
+    // Shared wall: live-updates for every visitor as new wishes come in
+    window.mishDB.collection("wishes").orderBy("at", "desc").onSnapshot(
+      (snapshot) => {
+        const wishes = snapshot.docs.map((doc) => doc.data());
+        renderWishes(wishes);
+      },
+      (err) => {
+        console.error("Firestore read failed, falling back to local wishes.", err);
+        renderWishes(loadLocal());
+      }
+    );
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = form.querySelector("#wish-name").value.trim();
+      const text = form.querySelector("#wish-text").value.trim();
+      if (!text) return;
+      window.mishDB.collection("wishes").add({ name, text, at: Date.now() })
+        .then(() => form.reset())
+        .catch((err) => alert("Couldn't post your wish — check your internet and try again."));
+    });
+
+    return;
+  }
+
+  // ---- Fallback: local-only (used only if Firebase isn't set up yet) ----
+  function loadLocal() {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) || "[]").slice().reverse();
+    } catch {
+      return [];
+    }
+  }
+
+  function saveLocal(wishes) {
+    localStorage.setItem(KEY, JSON.stringify(wishes));
+  }
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = form.querySelector("#wish-name").value.trim();
     const text = form.querySelector("#wish-text").value.trim();
     if (!text) return;
-    const wishes = load();
+    const wishes = JSON.parse(localStorage.getItem(KEY) || "[]");
     wishes.push({ name, text, at: Date.now() });
-    save(wishes);
+    saveLocal(wishes);
     form.reset();
-    render();
+    renderWishes(loadLocal());
   });
 
-  render();
+  renderWishes(loadLocal());
 })();
